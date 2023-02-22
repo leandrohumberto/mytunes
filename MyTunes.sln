@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunes.API", "MyTunes.API\MyTunes.API.csproj", "{7A3E48E2-9241-424E-ACA4-C632599F707D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTunes.API", "MyTunes.API\MyTunes.API.csproj", "{7A3E48E2-9241-424E-ACA4-C632599F707D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunes.Core", "MyTunes.Core\MyTunes.Core.csproj", "{863904BD-FE5C-4604-84DB-7C81F211C48F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{7A3E48E2-9241-424E-ACA4-C632599F707D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A3E48E2-9241-424E-ACA4-C632599F707D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A3E48E2-9241-424E-ACA4-C632599F707D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863904BD-FE5C-4604-84DB-7C81F211C48F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863904BD-FE5C-4604-84DB-7C81F211C48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863904BD-FE5C-4604-84DB-7C81F211C48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863904BD-FE5C-4604-84DB-7C81F211C48F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
