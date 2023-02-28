@@ -1,14 +1,15 @@
-﻿namespace MyTunes.API.DTOs
+﻿namespace MyTunes.Application.InputModels.Artist
 {
-    public class UpdateArtistDto
+    public class CreateArtistInputModel
     {
-        public UpdateArtistDto(string name, string biography)
+        public CreateArtistInputModel(string name, string biography)
         {
             Name = name;
             Biography = biography;
         }
 
         public string Name { get; private set; }
+
         public string Biography { get; private set; }
     }
 }

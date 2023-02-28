@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyTunes.Application\MyTunes.Application.csproj" />
     <ProjectReference Include="..\MyTunes.Core\MyTunes.Core.csproj" />
   </ItemGroup>
 

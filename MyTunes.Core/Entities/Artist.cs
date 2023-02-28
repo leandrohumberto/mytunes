@@ -1,25 +1,26 @@
-﻿namespace MyTunes.Core.Entities
+﻿using System.Collections.ObjectModel;
+
+namespace MyTunes.Core.Entities
 {
     public class Artist : BaseEntity
     {
-        public Artist(string name, string biography, IEnumerable<Album> albums)
+        public Artist(string name, string biography)
         {
             Name = name;
             Biography = biography;
-            Albums = new List<Album>(albums);
+            Albums = new Collection<Album>();
         }
 
         public string Name { get; private set; }
 
         public string Biography { get; private set; }
 
-        public IEnumerable<Album> Albums { get; private set; }
+        public ICollection<Album> Albums { get; private set; }
 
-        public void Update(string name, string biography, IEnumerable<Album> albums)
+        public void Update(string name, string biography)
         {
             Name = name;
             Biography = biography;
-            Albums = new List<Album>(albums);
         }
     }
 }

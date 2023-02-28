@@ -5,7 +5,11 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTunes.API", "MyTunes.API\MyTunes.API.csproj", "{7A3E48E2-9241-424E-ACA4-C632599F707D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunes.Core", "MyTunes.Core\MyTunes.Core.csproj", "{863904BD-FE5C-4604-84DB-7C81F211C48F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTunes.Core", "MyTunes.Core\MyTunes.Core.csproj", "{863904BD-FE5C-4604-84DB-7C81F211C48F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunes.Infrastructure", "MyTunes.Infrastructure\MyTunes.Infrastructure.csproj", "{F7658C1C-B2F7-4062-91EE-AFC06A086D6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunes.Application", "MyTunes.Application\MyTunes.Application.csproj", "{FBB66D01-8801-4193-9834-5059BFC2ED3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{863904BD-FE5C-4604-84DB-7C81F211C48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{863904BD-FE5C-4604-84DB-7C81F211C48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{863904BD-FE5C-4604-84DB-7C81F211C48F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7658C1C-B2F7-4062-91EE-AFC06A086D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7658C1C-B2F7-4062-91EE-AFC06A086D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7658C1C-B2F7-4062-91EE-AFC06A086D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7658C1C-B2F7-4062-91EE-AFC06A086D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBB66D01-8801-4193-9834-5059BFC2ED3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBB66D01-8801-4193-9834-5059BFC2ED3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBB66D01-8801-4193-9834-5059BFC2ED3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBB66D01-8801-4193-9834-5059BFC2ED3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

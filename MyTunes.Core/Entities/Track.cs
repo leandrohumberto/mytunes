@@ -4,6 +4,21 @@
     {
         public Track(uint number, string name, TimeSpan length)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+            }
+
+            if (number <= 0)
+            {
+                throw new ArgumentException($"'{nameof(number)}' cannot be zero.", nameof(name));
+            }
+
+            if (length.TotalSeconds <= 0.0)
+            {
+                throw new ArgumentException($"'{nameof(length)}' total seconds cannot be less than or equals to zero.", nameof(length));
+            }
+
             Number = number;
             Name = name;
             Length = length;
