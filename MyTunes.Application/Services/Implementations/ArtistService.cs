@@ -15,52 +15,61 @@ namespace MyTunes.Application.Services.Implementations
             _dbContext = dbContext;
         }
 
-        public int Create(CreateArtistInputModel inputModel)
+        public async Task<int> Create(CreateArtistInputModel inputModel, CancellationToken cancellationToken = default)
         {
             var artist = new Artist(inputModel.Name, inputModel.Biography);
-
-            var id = _dbContext.Artists.Keys.Any() ? _dbContext.Artists.Keys.Max() + 1 : 1;
-            _dbContext.Artists.Add(id, artist);
+            _dbContext.Artists.Add(artist);
+            _ = await _dbContext.SaveChangesAsync(cancellationToken);
             return artist.Id;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id, CancellationToken cancellationToken = default)
         {
-            if (_dbContext.Artists.Any(p => p.Key == id))
+            if (_dbContext.Artists.Any(p => p.Id == id))
             {
-                _dbContext.Artists.Remove(id);
+                var album = _dbContext.Artists.Single(p => p.Id == id);
+                _dbContext.Artists.Remove(album);
+                _ = await _dbContext.SaveChangesAsync(cancellationToken);
             }
         }
 
-        public IEnumerable<ArtistViewModel> Get(GetArtistsInputModel? inputModel)
+        public async Task<IEnumerable<ArtistViewModel>> Get(GetArtistsInputModel? inputModel)
         {
-            if (inputModel == null || (string.IsNullOrWhiteSpace(inputModel?.Name)))
+            IEnumerable<ArtistViewModel> result;
+
+            if (inputModel == null || string.IsNullOrWhiteSpace(inputModel?.Name))
             {
-                return _dbContext.Artists.Select(p => new ArtistViewModel(p.Key, p.Value.Name, p.Value.Biography));
+                result = _dbContext.Artists.Select(p => new ArtistViewModel(p.Id, p.Name, p.Biography));
+            }
+            else
+            {
+                result = _dbContext.Artists
+                    .Where(p => p.Name == inputModel.Name.Trim())
+                    .Select(p => new ArtistViewModel(p.Id, p.Name, p.Biography));
             }
 
-            return _dbContext.Artists
-                .Where(p => p.Value.Name == inputModel.Name.Trim())
-                .Select(p => new ArtistViewModel(p.Key, p.Value.Name, p.Value.Biography));
+            return await Task.FromResult(result);
         }
 
-        public ArtistViewModel GetById(int id)
+        public async Task<ArtistViewModel> GetById(int id)
         {
-            var artist = _dbContext.Artists.Where(p => p.Key == id).Single();
-
-            if (artist.Value != null)
+            if (_dbContext.Artists.Any(p => p.Id == id))
             {
-                return new ArtistViewModel(artist.Key, artist.Value.Name, artist.Value.Biography);
+                var artist = _dbContext.Artists.Where(p => p.Id == id).Single();
+                return await Task.FromResult(new ArtistViewModel(artist.Id, artist.Name, artist.Biography));
             }
 
             throw new Exception($"No artist found for the given Id ({id}).");
         }
 
-        public void Update(int id, UpdateArtistInputModel inputModel)
+        public async Task Update(int id, UpdateArtistInputModel inputModel, CancellationToken cancellationToken = default)
         {
-            var artist = _dbContext.Artists.Where(p => p.Key == id).Single().Value;
-
-            artist?.Update(inputModel.Name, inputModel.Biography);
+            if (_dbContext.Artists.Any(p => p.Id == id))
+            {
+                var artist = _dbContext.Artists.Where(p => p.Id == id).Single();
+                artist.Update(inputModel.Name, inputModel.Biography);
+                _ = await _dbContext.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 }

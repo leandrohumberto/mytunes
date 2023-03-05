@@ -2,8 +2,8 @@
 {
     public abstract class BaseEntity
     {
-        protected BaseEntity() { } // Criado para o EFCore
+        public BaseEntity() { } // Criado para o EFCore
 
-        public int Id { get; private set; }
+        public int Id { get; protected set; }
     }
 }

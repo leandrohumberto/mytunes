@@ -4,13 +4,21 @@ namespace MyTunes.Core.Entities
 {
     public class Album : BaseEntity
     {
-        public Album(string name, int idArtist, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
+        public Album(string name, uint year, string genre, AlbumFormat format)
         {
+            Validate(name, year, genre);
             Name = name;
-            IdArtist = idArtist;
             Year = year;
             Genre = genre;
             Format = format;
+            Tracklist = new List<Track>();
+
+        }
+
+        public Album(string name, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
+            : this(name, year, genre, format)
+        {
+            Validate(tracklist);
             Tracklist = new List<Track>(tracklist);
         }
 
@@ -26,9 +34,21 @@ namespace MyTunes.Core.Entities
 
         public AlbumFormat Format { get; private set; }
 
-        public IEnumerable<Track> Tracklist { get; private set; }
+        public List<Track> Tracklist { get; private set; }
 
         public void Update(string name, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
+        {
+            Validate(name, year, genre);
+            Validate(tracklist);
+
+            Name = name;
+            Year = year;
+            Genre = genre;
+            Format = format;
+            Tracklist = new List<Track>(tracklist);
+        }
+
+        private static void Validate(string name, uint year, string genre)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -44,17 +64,9 @@ namespace MyTunes.Core.Entities
             {
                 throw new ArgumentException($"'{nameof(genre)}' cannot be null or empty.", nameof(genre));
             }
-
-            ValidateTracklist(tracklist);
-
-            Name = name;
-            Year = year;
-            Genre = genre;
-            Format = format;
-            Tracklist = tracklist;
         }
 
-        private static void ValidateTracklist(IEnumerable<Track> tracklist)
+        private static void Validate(IEnumerable<Track> tracklist)
         {
             tracklist = tracklist ?? throw new ArgumentNullException(nameof(tracklist));
 

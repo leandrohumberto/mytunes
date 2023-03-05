@@ -17,24 +17,24 @@ namespace MyTunes.API.Controllers
 
         // api/users/{id} GET
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return Ok(_userService.GetById(id));
+            return Ok(await _userService.GetById(id));
         }
 
         // api/users POST
         [HttpPost]
-        public IActionResult Post([FromBody] CreateUserInputModel inputModel)
+        public async Task<IActionResult> Post([FromBody] CreateUserInputModel inputModel)
         {
-            var id = _userService.Create(inputModel);
+            var id = await _userService.Create(inputModel);
             return CreatedAtAction(nameof(GetById), new { id }, inputModel);
         }
 
         // api/users/{id}/login PUT
         [HttpPut("login")]
-        public IActionResult Login([FromBody] LoginUserInputModel inputModel)
+        public async Task<IActionResult> Login([FromBody] LoginUserInputModel inputModel)
         {
-            if (_userService.Login(inputModel))
+            if (await _userService.Login(inputModel))
             {
                 return Ok("Logged in");
             }

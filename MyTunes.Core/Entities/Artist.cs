@@ -8,14 +8,14 @@ namespace MyTunes.Core.Entities
         {
             Name = name;
             Biography = biography;
-            Albums = new Collection<Album>();
+            Albums = new List<Album>();
         }
 
         public string Name { get; private set; }
 
         public string Biography { get; private set; }
 
-        public ICollection<Album> Albums { get; private set; }
+        public List<Album> Albums { get; private set; }
 
         public void Update(string name, string biography)
         {

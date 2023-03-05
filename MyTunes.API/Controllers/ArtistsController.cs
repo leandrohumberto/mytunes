@@ -17,16 +17,16 @@ namespace MyTunes.API.Controllers
 
         // api/artists?name=ABC GET
         [HttpGet(Name = "GetArtists")]
-        public IActionResult Get([FromQuery] GetArtistsInputModel? inputModel)
+        public async Task<IActionResult> Get([FromQuery] GetArtistsInputModel? inputModel)
         {
-            return Ok(_artistService.Get(inputModel));
+            return Ok(await _artistService.Get(inputModel));
         }
 
         // api/artists/{id} GET
         [HttpGet("{id}", Name = "GetArtistById")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var viewModel = _artistService.GetById(id);
+            var viewModel = await _artistService.GetById(id);
             if (viewModel != null)
             {
                 return Ok(viewModel);
@@ -37,36 +37,36 @@ namespace MyTunes.API.Controllers
 
         // api/artists POST
         [HttpPost(Name = "CreateArtist")]
-        public IActionResult Post([FromBody] CreateArtistInputModel inputModel)
+        public async Task<IActionResult> Post([FromBody] CreateArtistInputModel inputModel)
         {
-            var id = _artistService.Create(inputModel);
+            var id = await _artistService.Create(inputModel);
 
             return CreatedAtAction(nameof(GetById), new { id }, inputModel);
         }
 
         // api/artists/{id} PUT
         [HttpPut("{id}", Name = "UpdateArtist")]
-        public IActionResult Put(int id, [FromBody] UpdateArtistInputModel inputModel)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateArtistInputModel inputModel)
         {
-            if (_artistService.GetById(id) == null)
+            if (await _artistService.GetById(id) == null)
             {
                 return NotFound();
             }
 
-            _artistService.Update(id, inputModel);
+            await _artistService.Update(id, inputModel);
             return NoContent();
         }
 
         // api/artists/{id} DELETE
         [HttpDelete("{id}", Name = "DeleteArtist")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (_artistService.GetById(id) == null)
+            if (await _artistService.GetById(id) == null)
             {
                 return NotFound();
             }
 
-            _artistService.Delete(id);
+            await _artistService.Delete(id);
             return NoContent();
         }
     }

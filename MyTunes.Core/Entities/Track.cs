@@ -24,6 +24,10 @@
             Length = length;
         }
 
+        public int IdAlbum { get; private set; }
+
+        public Album? Album { get; private set; }
+
         public uint Number { get; private set; }
 
         public string Name { get; private set; }

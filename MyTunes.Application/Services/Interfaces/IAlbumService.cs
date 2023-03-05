@@ -5,10 +5,10 @@ namespace MyTunes.Application.Services.Interfaces
 {
     public interface IAlbumService
     {
-        IEnumerable<AlbumViewModel> Get(GetAlbumsInputModel? inputModel);
-        AlbumViewModel GetById(int id);
-        int Create(CreateAlbumInputModel inputModel);
-        void Update(int id, UpdateAlbumInputModel inputModel);
-        void Delete(int id);
+        Task<IEnumerable<AlbumViewModel>> Get(GetAlbumsInputModel? inputModel);
+        Task<AlbumViewModel> GetById(int id);
+        Task<int> Create(CreateAlbumInputModel inputModel, CancellationToken cancellationToken = default);
+        Task Update(int id, UpdateAlbumInputModel inputModel, CancellationToken cancellationToken = default);
+        Task Delete(int id, CancellationToken cancellationToken = default);
     }
 }

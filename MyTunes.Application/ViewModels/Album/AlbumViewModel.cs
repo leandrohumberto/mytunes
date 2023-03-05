@@ -5,10 +5,11 @@ namespace MyTunes.Application.ViewModels.Album
 {
     public class AlbumViewModel
     {
-        public AlbumViewModel(int id, string name, uint year, string genre, AlbumFormat format, IEnumerable<TrackViewModel> tracklist)
+        public AlbumViewModel(int id, string name, string artist, uint year, string genre, AlbumFormat format, IEnumerable<TrackViewModel> tracklist)
         {
             Id = id;
             Name = name;
+            Artist = artist;
             Year = year;
             Genre = genre;
             Format = format;
@@ -16,7 +17,10 @@ namespace MyTunes.Application.ViewModels.Album
         }
 
         public int Id { get; private set; }
+
         public string Name { get; private set; }
+
+        public string Artist { get; private set; }
 
         public uint Year { get; private set; }
 

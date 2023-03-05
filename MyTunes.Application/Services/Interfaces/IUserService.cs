@@ -5,8 +5,8 @@ namespace MyTunes.Application.Services.Interfaces
 {
     public interface IUserService
     {
-        UserViewModel GetById(int id);
-        int Create(CreateUserInputModel inputModel);
-        bool Login(LoginUserInputModel inputModel);
+        Task<UserViewModel> GetById(int id);
+        Task<int> Create(CreateUserInputModel inputModel, CancellationToken cancellationToken = default);
+        Task<bool> Login(LoginUserInputModel inputModel);
     }
 }

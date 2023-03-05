@@ -15,23 +15,22 @@ namespace MyTunes.Application.Services.Implementations
             _dbContext = dbContext;
         }
 
-        public int Create(CreateUserInputModel inputModel)
+        public async Task<int> Create(CreateUserInputModel inputModel, CancellationToken cancellationToken = default)
         {
-            var id = _dbContext.Users.Keys.Any() ? _dbContext.Users.Keys.Max() + 1 : 1;
-            _dbContext.Users.Add(id, new User(inputModel.Name, inputModel.Email,
-                inputModel.Password, inputModel.Role));
+            var user = new User(inputModel.Name, inputModel.Email, inputModel.Password, inputModel.Role);
+            _dbContext.Users.Add(user);
+            _ = await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return id;
+            return user.Id;
         }
 
-        public UserViewModel GetById(int id)
-            => _dbContext.Users
-                .Where(p => p.Key == id)
-                .Select(p => new UserViewModel(p.Value.Name, p.Value.Email, p.Value.Role)).SingleOrDefault()
+        public async Task<UserViewModel> GetById(int id)
+            => await Task.FromResult(_dbContext.Users
+                .Where(p => p.Id == id)
+                .Select(p => new UserViewModel(p.Name, p.Email, p.Role)).SingleOrDefault())
             ?? throw new Exception("User not found");
 
-        public bool Login(LoginUserInputModel inputModel) =>
-            _dbContext.Users.Values
-                .Any(p => p.Email == inputModel.Email && p.Password == inputModel.Password);
+        public async Task<bool> Login(LoginUserInputModel inputModel)
+            => await Task.FromResult(_dbContext.Users.Any(p => p.Email == inputModel.Email && p.Password == inputModel.Password));
     }
 }
