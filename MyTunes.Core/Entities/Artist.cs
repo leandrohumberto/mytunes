@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace MyTunes.Core.Entities
+﻿namespace MyTunes.Core.Entities
 {
     public class Artist : BaseEntity
     {

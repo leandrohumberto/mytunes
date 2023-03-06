@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyTunes.Application.InputModels.User;
-using MyTunes.Application.Services.Interfaces;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using MyTunes.Application.Commands.CreateUser;
+using MyTunes.Application.Commands.LoginUser;
+using MyTunes.Application.Queries.GetUserById;
 
 namespace MyTunes.API.Controllers
 {
@@ -8,33 +10,35 @@ namespace MyTunes.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IMediator _mediator;
 
-        public UsersController(IUserService userService)
+        public UsersController(IMediator mediator)
         {
-            _userService = userService;
+            _mediator = mediator;
         }
 
         // api/users/{id} GET
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            return Ok(await _userService.GetById(id));
+            // TODO: validar se existe Album com o id informado e retornar NotFound caso contrário
+
+            return Ok(await _mediator.Send(new GetUserByIdQuery(id)));
         }
 
         // api/users POST
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateUserInputModel inputModel)
+        public async Task<IActionResult> Post([FromBody] CreateUserCommand command)
         {
-            var id = await _userService.Create(inputModel);
-            return CreatedAtAction(nameof(GetById), new { id }, inputModel);
+            var id = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id }, command);
         }
 
-        // api/users/{id}/login PUT
+        // api/users/login PUT
         [HttpPut("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserInputModel inputModel)
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
-            if (await _userService.Login(inputModel))
+            if (await _mediator.Send(command))
             {
                 return Ok("Logged in");
             }

@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyTunes.Application.InputModels.Album;
-using MyTunes.Application.Services.Interfaces;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using MyTunes.Application.Commands;
+using MyTunes.Application.Commands.DeleteAlbum;
+using MyTunes.Application.Commands.UpdateAlbum;
+using MyTunes.Application.Queries.GetAlbumById;
+using MyTunes.Application.Queries.GetAlbums;
+using MyTunes.Application.ViewModels.Album;
 
 namespace MyTunes.API.Controllers
 {
@@ -8,52 +13,48 @@ namespace MyTunes.API.Controllers
     [ApiController]
     public class AlbumsController : ControllerBase
     {
-        private readonly IAlbumService _albumService;
+        private readonly IMediator _mediator;
 
-        public AlbumsController(IAlbumService albumService)
+        public AlbumsController(IMediator mediator)
         {
-            _albumService = albumService;
+            _mediator = mediator;
         }
 
         // api/albums GET
         [HttpGet(Name = "GetAlbums")]
-        public async Task<IActionResult> Get([FromQuery] GetAlbumsInputModel? inputModel)
+        public async Task<IActionResult> Get([FromQuery] GetAlbumsQuery? inputModel)
         {
-            return Ok(await _albumService.Get(inputModel));
+            var albums = inputModel != null ? await _mediator.Send(inputModel) : Enumerable.Empty<AlbumViewModel>();
+            return Ok(albums);
         }
 
         // api/albums/{id} GET
         [HttpGet("{id}", Name = "GetAlbumById")]
         public async Task<IActionResult> GetById(int id)
         {
-            var viewModel = await _albumService.GetById(id);
-            if (viewModel != null)
-            {
-                return Ok(viewModel);
-            }
+            // TODO: validar se existe Album com o id informado e retornar NotFound caso contrário
 
-            return NotFound();
+            var viewModel = await _mediator.Send(new GetAlbumByIdQuery(id));
+            return Ok(viewModel);
         }
 
         // api/albums POST
         [HttpPost(Name = "CreateAlbmum")]
-        public async Task<IActionResult> Post([FromBody] CreateAlbumInputModel inputModel)
+        public async Task<IActionResult> Post([FromBody] CreateAlbumCommand command)
         {
-            var id = await _albumService.Create(inputModel);
+            var id = await _mediator.Send(command);
 
-            return CreatedAtAction(nameof(GetById), new { id }, inputModel);
+            return CreatedAtAction(nameof(GetById), new { id }, command);
         }
 
         // api/albums/{id} PUT
         [HttpPut("{id}", Name = "UpdateAlbum")]
-        public async Task<IActionResult> Put(int id, [FromBody] UpdateAlbumInputModel inputModel)
+        public async Task<IActionResult> Put(int id, [FromBody] UpdateAlbumCommand command)
         {
-            if (await _albumService.GetById(id) == null)
-            {
-                return NotFound();
-            }
+            // TODO: validar se existe Album com o id informado e retornar NotFound caso contrário
 
-            await _albumService.Update(id, inputModel);
+            command.SetId(id);
+            await _mediator.Send(command);
             return NoContent();
         }
 
@@ -61,12 +62,9 @@ namespace MyTunes.API.Controllers
         [HttpDelete("{id}", Name = "DeleteAlbum")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _albumService.GetById(id) == null)
-            {
-                return NotFound();
-            }
+            // TODO: validar se existe Album com o id informado e retornar NotFound caso contrário
 
-            await _albumService.Delete(id);
+            await _mediator.Send(new DeleteAlbumCommand(id));
             return NoContent();
         }
     }

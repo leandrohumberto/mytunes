@@ -7,8 +7,46 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="InputModels\Album\CreateAlbumInputModel.cs" />
+    <Compile Remove="InputModels\Album\GetAlbumsInputModel.cs" />
+    <Compile Remove="InputModels\Album\UpdateAlbumInputModel.cs" />
+    <Compile Remove="InputModels\Artist\CreateArtistInputModel.cs" />
+    <Compile Remove="InputModels\Artist\GetArtistsInputModel.cs" />
+    <Compile Remove="InputModels\Artist\UpdateArtistInputModel.cs" />
+    <Compile Remove="InputModels\User\CreateUserInputModel.cs" />
+    <Compile Remove="InputModels\User\LoginUserInputModel.cs" />
+    <Compile Remove="Services\Implementations\AlbumService.cs" />
+    <Compile Remove="Services\Implementations\ArtistService.cs" />
+    <Compile Remove="Services\Implementations\UserService.cs" />
+    <Compile Remove="Services\Interfaces\IAlbumService.cs" />
+    <Compile Remove="Services\Interfaces\IArtistService.cs" />
+    <Compile Remove="Services\Interfaces\IUserService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="InputModels\Album\CreateAlbumInputModel.cs" />
+    <None Include="InputModels\Album\GetAlbumsInputModel.cs" />
+    <None Include="InputModels\Album\UpdateAlbumInputModel.cs" />
+    <None Include="InputModels\Artist\CreateArtistInputModel.cs" />
+    <None Include="InputModels\Artist\GetArtistsInputModel.cs" />
+    <None Include="InputModels\Artist\UpdateArtistInputModel.cs" />
+    <None Include="InputModels\User\CreateUserInputModel.cs" />
+    <None Include="InputModels\User\LoginUserInputModel.cs" />
+    <None Include="Services\Implementations\AlbumService.cs" />
+    <None Include="Services\Implementations\ArtistService.cs" />
+    <None Include="Services\Implementations\UserService.cs" />
+    <None Include="Services\Interfaces\IAlbumService.cs" />
+    <None Include="Services\Interfaces\IArtistService.cs" />
+    <None Include="Services\Interfaces\IUserService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MyTunes.Core\MyTunes.Core.csproj" />
     <ProjectReference Include="..\MyTunes.Infrastructure\MyTunes.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.0.1" />
   </ItemGroup>
 
 </Project>

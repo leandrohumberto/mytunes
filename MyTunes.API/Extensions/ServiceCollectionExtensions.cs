@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyTunes.Application.Services.Implementations;
-using MyTunes.Application.Services.Interfaces;
+using MyTunes.Application.Commands.CreateArtist;
 using MyTunes.Infrastructure.Persistence;
 
 namespace MyTunes.API.Extensions
@@ -12,9 +11,7 @@ namespace MyTunes.API.Extensions
             services.AddDbContext<MyTunesDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("MyTunesCs")));
             
-            services.AddScoped<IAlbumService, AlbumService>();
-            services.AddScoped<IArtistService, ArtistService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateArtistCommand).Assembly));
 
             return services;
         }
