@@ -1,26 +1,22 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using MyTunes.Core.Entities;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Commands.CreateUser
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public CreateUserCommandHandler(MyTunesDbContext dbContext)
+        public CreateUserCommandHandler(IUserRepository userRepository)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
         }
 
-        public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken = default)
         {
             var user = new User(request.Name, request.Email, request.Password, request.Role);
-            _dbContext.Users.Add(user);
-            _ = await _dbContext.SaveChangesAsync(cancellationToken);
-
-            return user.Id;
+            return await _userRepository.CreateAsync(user, cancellationToken);
         }
     }
 }

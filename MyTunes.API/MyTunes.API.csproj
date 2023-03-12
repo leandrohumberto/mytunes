@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MyTunes.Application\MyTunes.Application.csproj" />
     <ProjectReference Include="..\MyTunes.Core\MyTunes.Core.csproj" />
+    <ProjectReference Include="..\MyTunes.Infrastructure\MyTunes.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

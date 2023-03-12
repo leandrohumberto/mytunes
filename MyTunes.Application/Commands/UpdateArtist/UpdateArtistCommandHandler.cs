@@ -1,24 +1,24 @@
 ﻿using MediatR;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Commands.UpdateArtist
 {
     public class UpdateArtistCommandHandler : IRequestHandler<UpdateArtistCommand, Unit>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IArtistRepository _artistRepository;
 
-        public UpdateArtistCommandHandler(MyTunesDbContext dbContext)
+        public UpdateArtistCommandHandler(IArtistRepository artistRepository)
         {
-            _dbContext = dbContext;
+            _artistRepository = artistRepository;
         }
 
-        public async Task<Unit> Handle(UpdateArtistCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateArtistCommand request, CancellationToken cancellationToken = default)
         {
-            if (_dbContext.Artists.Any(p => p.Id == request.Id))
+            if (await _artistRepository.ExistsAsync(request.Id, cancellationToken))
             {
-                var artist = _dbContext.Artists.Where(p => p.Id == request.Id).Single();
+                var artist = await _artistRepository.GetByIdAsync(request.Id, cancellationToken);
                 artist.Update(request.Name, request.Biography);
-                _ = await _dbContext.SaveChangesAsync(cancellationToken);
+                await _artistRepository.SaveChangesAsync(artist, cancellationToken);
             }
 
             return Unit.Value;

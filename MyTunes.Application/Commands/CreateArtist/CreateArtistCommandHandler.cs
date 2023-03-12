@@ -1,24 +1,22 @@
 ﻿using MediatR;
 using MyTunes.Core.Entities;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Commands.CreateArtist
 {
     public class CreateArtistCommandHandler : IRequestHandler<CreateArtistCommand, int>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IArtistRepository _artistRepository;
 
-        public CreateArtistCommandHandler(MyTunesDbContext dbContext)
+        public CreateArtistCommandHandler(IArtistRepository artistRepository)
         {
-            _dbContext = dbContext;
+            _artistRepository = artistRepository;
         }
 
-        public async Task<int> Handle(CreateArtistCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateArtistCommand request, CancellationToken cancellationToken = default)
         {
             var artist = new Artist(request.Name, request.Biography);
-            _dbContext.Artists.Add(artist);
-            _ = await _dbContext.SaveChangesAsync(cancellationToken);
-            return artist.Id;
+            return await _artistRepository.AddAsync(artist, cancellationToken);
         }
     }
 }

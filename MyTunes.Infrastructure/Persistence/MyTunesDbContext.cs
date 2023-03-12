@@ -13,12 +13,6 @@ namespace MyTunes.Infrastructure.Persistence
         public DbSet<Track> Tracks { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public Dictionary<int, Artist> ArtistsSample { get; private set; } = new Dictionary<int, Artist>();
-
-        public Dictionary<int, Album> AlbumsSample { get; private set; } = new Dictionary<int, Album>();
-
-        public Dictionary<int, User> UsersSample { get; private set; } = new Dictionary<int, User>();
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

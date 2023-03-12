@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyTunes.Application.Commands;
 using MyTunes.Application.Commands.DeleteAlbum;
 using MyTunes.Application.Commands.UpdateAlbum;
+using MyTunes.Application.Queries.AlbumExists;
 using MyTunes.Application.Queries.GetAlbumById;
 using MyTunes.Application.Queries.GetAlbums;
 using MyTunes.Application.ViewModels.Album;
@@ -29,17 +30,20 @@ namespace MyTunes.API.Controllers
         }
 
         // api/albums/{id} GET
-        [HttpGet("{id}", Name = "GetAlbumById")]
+        [HttpGet("{id:int}", Name = "GetAlbumById")]
         public async Task<IActionResult> GetById(int id)
         {
-            // TODO: validar se existe Album com o id informado e retornar NotFound caso contrário
+            if (await _mediator.Send(new AlbumExistsQuery(id)))
+            {
+                var viewModel = await _mediator.Send(new GetAlbumByIdQuery(id));
+                return Ok(viewModel);
+            }
 
-            var viewModel = await _mediator.Send(new GetAlbumByIdQuery(id));
-            return Ok(viewModel);
+            return NotFound();
         }
 
         // api/albums POST
-        [HttpPost(Name = "CreateAlbmum")]
+        [HttpPost(Name = "CreateAlbum")]
         public async Task<IActionResult> Post([FromBody] CreateAlbumCommand command)
         {
             var id = await _mediator.Send(command);
@@ -48,24 +52,30 @@ namespace MyTunes.API.Controllers
         }
 
         // api/albums/{id} PUT
-        [HttpPut("{id}", Name = "UpdateAlbum")]
+        [HttpPut("{id:int}", Name = "UpdateAlbum")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateAlbumCommand command)
         {
-            // TODO: validar se existe Album com o id informado e retornar NotFound caso contrário
+            if (await _mediator.Send(new AlbumExistsQuery(id)))
+            {
+                command.SetId(id);
+                await _mediator.Send(command);
+                return NoContent();
+            }
 
-            command.SetId(id);
-            await _mediator.Send(command);
-            return NoContent();
+            return NotFound();
         }
 
         // api/albums/{id} DELETE
-        [HttpDelete("{id}", Name = "DeleteAlbum")]
+        [HttpDelete("{id:int}", Name = "DeleteAlbum")]
         public async Task<IActionResult> Delete(int id)
         {
-            // TODO: validar se existe Album com o id informado e retornar NotFound caso contrário
+            if (await _mediator.Send(new AlbumExistsQuery(id)))
+            {
+                await _mediator.Send(new DeleteAlbumCommand(id));
+                return NoContent();
+            }
 
-            await _mediator.Send(new DeleteAlbumCommand(id));
-            return NoContent();
+            return NotFound();
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyTunes.Application.Commands.CreateUser;
 using MyTunes.Application.Commands.LoginUser;
 using MyTunes.Application.Queries.GetUserById;
+using MyTunes.Application.Queries.UserExists;
 
 namespace MyTunes.API.Controllers
 {
@@ -18,12 +19,15 @@ namespace MyTunes.API.Controllers
         }
 
         // api/users/{id} GET
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            // TODO: validar se existe Album com o id informado e retornar NotFound caso contrário
+            if (await _mediator.Send(new UserExistsQuery(id)))
+            {
+                return Ok(await _mediator.Send(new GetUserByIdQuery(id)));
+            }
 
-            return Ok(await _mediator.Send(new GetUserByIdQuery(id)));
+            return NotFound();
         }
 
         // api/users POST

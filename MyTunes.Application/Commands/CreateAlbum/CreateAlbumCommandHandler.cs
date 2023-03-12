@@ -1,21 +1,23 @@
 ﻿using MediatR;
 using MyTunes.Core.Entities;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Commands
 {
     public class CreateAlbumCommandHandler : IRequestHandler<CreateAlbumCommand, int>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IAlbumRepository _albumRepository;
+        private readonly IArtistRepository _artistRepository;
 
-        public CreateAlbumCommandHandler(MyTunesDbContext dbContext)
+        public CreateAlbumCommandHandler(IAlbumRepository albumRepository, IArtistRepository artistRepository)
         {
-            _dbContext = dbContext;
+            _albumRepository = albumRepository;
+            _artistRepository = artistRepository;
         }
 
-        public async Task<int> Handle(CreateAlbumCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateAlbumCommand request, CancellationToken cancellationToken = default)
         {
-            if (!_dbContext.Artists.Any(p => p.Id == request.IdArtist))
+            if (!await _artistRepository.ExistsAsync(request.IdArtist, cancellationToken))
             {
                 throw new Exception($"No artists found for the given Id ({request.IdArtist}).");
             }
@@ -26,14 +28,11 @@ namespace MyTunes.Application.Commands
 
             //
             // Create Album object
-            var album = new Album(request.Name, request.Year, request.Genre, request.Format, tracklist);
+            var album = new Album(request.Name, request.IdArtist, request.Year, request.Genre, request.Format, tracklist);
 
             //
-            // Add album to the artist collection
-            var artist = _dbContext.Artists.Single(p => p.Id == request.IdArtist);
-            artist.Albums.Add(album);
-            _ = await _dbContext.SaveChangesAsync(cancellationToken);
-            return album.Id;
+            // Create on the repository
+            return await _albumRepository.AddAsync(album, cancellationToken);
         }
     }
 }

@@ -4,10 +4,11 @@ namespace MyTunes.Core.Entities
 {
     public class Album : BaseEntity
     {
-        public Album(string name, uint year, string genre, AlbumFormat format)
+        public Album(string name, int idArtist, uint year, string genre, AlbumFormat format)
         {
             Validate(name, year, genre);
             Name = name;
+            IdArtist = idArtist;
             Year = year;
             Genre = genre;
             Format = format;
@@ -15,8 +16,8 @@ namespace MyTunes.Core.Entities
 
         }
 
-        public Album(string name, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
-            : this(name, year, genre, format)
+        public Album(string name, int idArtist, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
+            : this(name, idArtist, year, genre, format)
         {
             Validate(tracklist);
             Tracklist = new List<Track>(tracklist);

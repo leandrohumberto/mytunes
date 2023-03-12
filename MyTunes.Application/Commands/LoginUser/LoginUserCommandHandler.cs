@@ -1,20 +1,20 @@
 ﻿using MediatR;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Commands.LoginUser
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, bool>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public LoginUserCommandHandler(MyTunesDbContext dbContext)
+        public LoginUserCommandHandler(IUserRepository userRepository)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
         }
 
-        public async Task<bool> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(LoginUserCommand request, CancellationToken cancellationToken = default)
         {
-            return await Task.FromResult(_dbContext.Users.Any(p => p.Email == request.Email && p.Password == request.Password));
+            return await _userRepository.LoginAsync(request.Email, request.Password, cancellationToken);
         }
     }
 }

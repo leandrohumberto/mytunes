@@ -1,35 +1,22 @@
 ﻿using MediatR;
 using MyTunes.Application.ViewModels.Artist;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Queries.GetArtists
 {
     public class GetArtistsQueryHandler : IRequestHandler<GetArtistsQuery, IEnumerable<ArtistViewModel>>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IArtistRepository _artistRepository;
 
-        public GetArtistsQueryHandler(MyTunesDbContext dbContext)
+        public GetArtistsQueryHandler(IArtistRepository artistRepository)
         {
-            _dbContext = dbContext;
+            _artistRepository = artistRepository;
         }
 
-        public async Task<IEnumerable<ArtistViewModel>> Handle(GetArtistsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ArtistViewModel>> Handle(GetArtistsQuery request, CancellationToken cancellationToken = default)
         {
-            IEnumerable<ArtistViewModel> result;
-
-            if (request == null || string.IsNullOrWhiteSpace(request?.Name))
-            {
-                result = _dbContext.Artists
-                    .Select(artist => new ArtistViewModel(artist.Id, artist.Name, artist.Biography));
-            }
-            else
-            {
-                result = _dbContext.Artists
-                    .Where(artist => artist.Name == request.Name.Trim())
-                    .Select(artist => new ArtistViewModel(artist.Id, artist.Name, artist.Biography));
-            }
-
-            return await Task.FromResult(result);
+            var artist = await _artistRepository.GetAllAsync(request.Name, cancellationToken);
+            return artist.Select(artist => new ArtistViewModel(artist.Id, artist.Name, artist.Biography));
         }
     }
 }

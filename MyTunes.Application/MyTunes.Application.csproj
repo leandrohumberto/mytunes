@@ -24,6 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Commands\UpdateArtist\UpdateArtistCommandHandler.cs~RF73303756.TMP" />
+    <None Remove="Queries\ArtistExists\ArtistExistsQueryHandler.cs~RF665ff638.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="InputModels\Album\CreateAlbumInputModel.cs" />
     <None Include="InputModels\Album\GetAlbumsInputModel.cs" />
     <None Include="InputModels\Album\UpdateAlbumInputModel.cs" />
@@ -42,7 +47,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyTunes.Core\MyTunes.Core.csproj" />
-    <ProjectReference Include="..\MyTunes.Infrastructure\MyTunes.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,24 +1,22 @@
 ﻿using MediatR;
 using MyTunes.Application.ViewModels.User;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Queries.GetUserById
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserViewModel>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IUserRepository _repository;
 
-        public GetUserByIdQueryHandler(MyTunesDbContext dbContext)
+        public GetUserByIdQueryHandler(IUserRepository repository)
         {
-            _dbContext = dbContext;
+            _repository = repository;
         }
 
-        public async Task<UserViewModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async Task<UserViewModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken = default)
         {
-            return await Task.FromResult(_dbContext.Users
-                .Where(p => p.Id == request.Id)
-                .Select(p => new UserViewModel(p.Name, p.Email, p.Role)).SingleOrDefault())
-            ?? throw new Exception("User not found");
+            var user = await _repository.GetByIdAsync(request.Id, cancellationToken);
+            return new UserViewModel(user.Name, user.Email, user.Role);
         }
     }
 }

@@ -1,24 +1,24 @@
 ﻿using MediatR;
 using MyTunes.Core.Entities;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Commands.UpdateAlbum
 {
     public class UpdateAlbumCommandHandler : IRequestHandler<UpdateAlbumCommand, Unit>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IAlbumRepository _albumRepository;
 
-        public UpdateAlbumCommandHandler(MyTunesDbContext dbContext)
+        public UpdateAlbumCommandHandler(IAlbumRepository albumRepository)
         {
-            _dbContext = dbContext;
+            _albumRepository = albumRepository;
         }
 
-        public async Task<Unit> Handle(UpdateAlbumCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateAlbumCommand request, CancellationToken cancellationToken = default)
         {
-            if (_dbContext.Albums.Any(p => p.Id == request.Id))
+            if (await _albumRepository.ExistsAsync(request.Id, cancellationToken))
             {
-                var album = _dbContext.Albums.Single(p => p.Id == request.Id);
-                _dbContext.Tracks.RemoveRange(album.Tracklist);
+                var album = await _albumRepository.GetByIdAsync(request.Id, cancellationToken);
+
                 album.Update(
                     request.Name,
                     request.Year,
@@ -26,7 +26,7 @@ namespace MyTunes.Application.Commands.UpdateAlbum
                     request.Format,
                     request.Tracklist.Select(p => new Track(p.Number, p.Name, p.Length)));
 
-                _ = await _dbContext.SaveChangesAsync(cancellationToken);
+                await _albumRepository.SaveChangesAsync(album, cancellationToken);
             }
 
             return Unit.Value;

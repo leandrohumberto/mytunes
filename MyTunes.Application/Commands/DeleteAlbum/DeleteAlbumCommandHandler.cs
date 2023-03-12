@@ -1,24 +1,22 @@
 ﻿using MediatR;
-using MyTunes.Infrastructure.Persistence;
+using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Commands.DeleteAlbum
 {
     public class DeleteAlbumCommandHandler : IRequestHandler<DeleteAlbumCommand, Unit>
     {
-        private readonly MyTunesDbContext _dbContext;
+        private readonly IAlbumRepository _albumRepository;
 
-        public DeleteAlbumCommandHandler(MyTunesDbContext dbContext)
+        public DeleteAlbumCommandHandler(IAlbumRepository albumRepository)
         {
-            _dbContext = dbContext;
+            _albumRepository = albumRepository;
         }
 
-        public async Task<Unit> Handle(DeleteAlbumCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteAlbumCommand request, CancellationToken cancellationToken = default)
         {
-            if (_dbContext.Albums.Any(p => p.Id == request.Id))
+            if (await _albumRepository.ExistsAsync(request.Id, cancellationToken))
             {
-                var album = _dbContext.Albums.Single(p => p.Id == request.Id);
-                _dbContext.Albums.Remove(album);
-                _ = await _dbContext.SaveChangesAsync(cancellationToken);
+                await _albumRepository.DeleteAsync(request.Id, cancellationToken);
             }
 
             return Unit.Value;
