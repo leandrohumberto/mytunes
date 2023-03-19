@@ -14,6 +14,7 @@ namespace MyTunes.API.Controllers
     [ApiController]
     public class ArtistsController : ControllerBase
     {
+        private const string applicationJsonMediaType = "application/json";
         private readonly IMediator _mediator;
 
         public ArtistsController(IMediator mediator)
@@ -23,6 +24,7 @@ namespace MyTunes.API.Controllers
 
         // api/artists?name=ABC GET
         [HttpGet(Name = "GetArtists")]
+        [ProducesResponseType(typeof(IEnumerable<ArtistViewModel>), StatusCodes.Status200OK, applicationJsonMediaType)]
         public async Task<IActionResult> Get([FromQuery] GetArtistsQuery? query)
         {
             IEnumerable<ArtistViewModel> artists;
@@ -41,6 +43,8 @@ namespace MyTunes.API.Controllers
 
         // api/artists/{id} GET
         [HttpGet("{id:int}", Name = "GetArtistById")]
+        [ProducesResponseType(typeof(ArtistViewModel), StatusCodes.Status200OK, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
             if (await _mediator.Send(new ArtistExistsQuery(id)))
@@ -54,6 +58,8 @@ namespace MyTunes.API.Controllers
 
         // api/artists POST
         [HttpPost(Name = "CreateArtist")]
+        [ProducesResponseType(typeof(CreateArtistCommand), StatusCodes.Status201Created, applicationJsonMediaType)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
         public async Task<IActionResult> Post([FromBody] CreateArtistCommand command)
         {
             var id = await _mediator.Send(command);
@@ -63,6 +69,9 @@ namespace MyTunes.API.Controllers
 
         // api/artists/{id} PUT
         [HttpPut("{id:int}", Name = "UpdateArtist")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateArtistCommand command)
         {
             if (await _mediator.Send(new ArtistExistsQuery(id)))
@@ -77,6 +86,8 @@ namespace MyTunes.API.Controllers
 
         // api/artists/{id} DELETE
         [HttpDelete("{id:int}", Name = "DeleteArtist")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _mediator.Send(new ArtistExistsQuery(id)))

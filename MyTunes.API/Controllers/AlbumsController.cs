@@ -14,6 +14,7 @@ namespace MyTunes.API.Controllers
     [ApiController]
     public class AlbumsController : ControllerBase
     {
+        private const string applicationJsonMediaType = "application/json";
         private readonly IMediator _mediator;
 
         public AlbumsController(IMediator mediator)
@@ -23,6 +24,7 @@ namespace MyTunes.API.Controllers
 
         // api/albums GET
         [HttpGet(Name = "GetAlbums")]
+        [ProducesResponseType(typeof(IEnumerable<AlbumViewModel>), StatusCodes.Status200OK, applicationJsonMediaType)]
         public async Task<IActionResult> Get([FromQuery] GetAlbumsQuery? inputModel)
         {
             var albums = inputModel != null ? await _mediator.Send(inputModel) : Enumerable.Empty<AlbumViewModel>();
@@ -31,6 +33,8 @@ namespace MyTunes.API.Controllers
 
         // api/albums/{id} GET
         [HttpGet("{id:int}", Name = "GetAlbumById")]
+        [ProducesResponseType(typeof(AlbumViewModel), StatusCodes.Status200OK, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
             if (await _mediator.Send(new AlbumExistsQuery(id)))
@@ -44,6 +48,8 @@ namespace MyTunes.API.Controllers
 
         // api/albums POST
         [HttpPost(Name = "CreateAlbum")]
+        [ProducesResponseType(typeof(CreateAlbumCommand), StatusCodes.Status201Created, applicationJsonMediaType)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
         public async Task<IActionResult> Post([FromBody] CreateAlbumCommand command)
         {
             var id = await _mediator.Send(command);
@@ -53,6 +59,9 @@ namespace MyTunes.API.Controllers
 
         // api/albums/{id} PUT
         [HttpPut("{id:int}", Name = "UpdateAlbum")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateAlbumCommand command)
         {
             if (await _mediator.Send(new AlbumExistsQuery(id)))
@@ -67,6 +76,8 @@ namespace MyTunes.API.Controllers
 
         // api/albums/{id} DELETE
         [HttpDelete("{id:int}", Name = "DeleteAlbum")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _mediator.Send(new AlbumExistsQuery(id)))

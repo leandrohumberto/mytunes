@@ -14,7 +14,7 @@ namespace MyTunes.Application.Commands.UpdateArtist
 
         public string Name { get; private set; }
 
-        public string Biography { get; private set; }
+        public string? Biography { get; private set; }
 
         public void SetId(int id) => Id = id;
     }

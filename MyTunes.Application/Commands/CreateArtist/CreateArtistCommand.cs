@@ -13,6 +13,6 @@ namespace MyTunes.Application.Commands.CreateArtist
 
         public string Name { get; private set; }
 
-        public string Biography { get; private set; }
+        public string? Biography { get; private set; }
     }
 }

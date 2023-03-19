@@ -1,13 +1,16 @@
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using MyTunes.API.Extensions;
+using MyTunes.API.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddCqrs();
+builder.Services.AddFluentValidation();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
