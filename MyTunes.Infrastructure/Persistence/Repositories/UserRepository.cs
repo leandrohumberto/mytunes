@@ -23,12 +23,13 @@ namespace MyTunes.Infrastructure.Persistence.Repositories
         public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
             => await _dbContext.Users.AnyAsync(u => u.Id == id, cancellationToken);
 
+        public async Task<bool> ExistsAsync(string email, CancellationToken cancellationToken = default)
+            => await _dbContext.Users.AnyAsync(u => u.Email == email, cancellationToken);
+
+        public async Task<User?> GetByEmailAndPasswordAsync(string email, string password, CancellationToken cancellationToken = default)
+            => await _dbContext.Users.SingleOrDefaultAsync(p => p.Email == email && p.Password == password, cancellationToken);
+
         public async Task<User> GetByIdAsync(int id, CancellationToken cancellationToken = default)
             => await _dbContext.Users.SingleAsync(u => u.Id == id, cancellationToken: cancellationToken);
-
-        public async Task<bool> LoginAsync(string email, string password, CancellationToken cancellationToken = default)
-        {
-            return await _dbContext.Users.AnyAsync(p => p.Email == email && p.Password == password, cancellationToken);
-        }
     }
 }

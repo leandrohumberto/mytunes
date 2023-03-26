@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyTunes.Application.Commands;
 using MyTunes.Application.Commands.DeleteAlbum;
@@ -12,6 +13,7 @@ namespace MyTunes.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AlbumsController : ControllerBase
     {
         private const string applicationJsonMediaType = "application/json";
@@ -24,7 +26,10 @@ namespace MyTunes.API.Controllers
 
         // api/albums GET
         [HttpGet(Name = "GetAlbums")]
+        [Authorize(Roles = "Admin,Viewer")]
         [ProducesResponseType(typeof(IEnumerable<AlbumViewModel>), StatusCodes.Status200OK, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Get([FromQuery] GetAlbumsQuery? inputModel)
         {
             var albums = inputModel != null ? await _mediator.Send(inputModel) : Enumerable.Empty<AlbumViewModel>();
@@ -33,7 +38,10 @@ namespace MyTunes.API.Controllers
 
         // api/albums/{id} GET
         [HttpGet("{id:int}", Name = "GetAlbumById")]
+        [Authorize(Roles = "Admin,Viewer")]
         [ProducesResponseType(typeof(AlbumViewModel), StatusCodes.Status200OK, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
@@ -48,8 +56,11 @@ namespace MyTunes.API.Controllers
 
         // api/albums POST
         [HttpPost(Name = "CreateAlbum")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CreateAlbumCommand), StatusCodes.Status201Created, applicationJsonMediaType)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Post([FromBody] CreateAlbumCommand command)
         {
             var id = await _mediator.Send(command);
@@ -59,8 +70,11 @@ namespace MyTunes.API.Controllers
 
         // api/albums/{id} PUT
         [HttpPut("{id:int}", Name = "UpdateAlbum")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateAlbumCommand command)
         {
@@ -76,7 +90,10 @@ namespace MyTunes.API.Controllers
 
         // api/albums/{id} DELETE
         [HttpDelete("{id:int}", Name = "DeleteAlbum")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {

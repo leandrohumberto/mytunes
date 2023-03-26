@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using MyTunes.Application.ViewModels.User;
 
 namespace MyTunes.Application.Commands.LoginUser
 {
-    public class LoginUserCommand : IRequest<bool>
+    public class LoginUserCommand : IRequest<LoginUserViewModel>
     {
         public LoginUserCommand(string email, string password)
         {

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyTunes.Application.Commands.CreateUser;
 using MyTunes.Application.Commands.LoginUser;
@@ -10,6 +11,7 @@ namespace MyTunes.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private const string applicationJsonMediaType = "application/json";
@@ -21,8 +23,11 @@ namespace MyTunes.API.Controllers
         }
 
         // api/users/{id} GET
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetUserById")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
@@ -35,9 +40,13 @@ namespace MyTunes.API.Controllers
         }
 
         // api/users POST
-        [HttpPost]
+        [HttpPost(Name = "CreateUser")]
+        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Viewer")]
         [ProducesResponseType(typeof(CreateUserCommand), StatusCodes.Status201Created, applicationJsonMediaType)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Post([FromBody] CreateUserCommand command)
         {
             var id = await _mediator.Send(command);
@@ -45,18 +54,24 @@ namespace MyTunes.API.Controllers
         }
 
         // api/users/login PUT
-        [HttpPut("login")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK, applicationJsonMediaType)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
+        [HttpPut("login", Name = "LoginUser")]
+        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Viewer")]
+        [ProducesResponseType(typeof(LoginUserViewModel), StatusCodes.Status200OK, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest, applicationJsonMediaType)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
-            if (await _mediator.Send(command))
+            var viewModel = await _mediator.Send(command);
+
+            if (viewModel == null)
             {
-                return Ok("Logged in");
+                return BadRequest();
             }
 
-            return BadRequest("Invalid Email or Password");
+            return Ok(viewModel);
         }
     }
 }
