@@ -2,15 +2,18 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using MyTunes.API.Extensions;
 using MyTunes.API.Filters;
+using NLog;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 // Add services to the container.
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddCqrs();
 builder.Services.AddFluentValidation();
 builder.Services.AddAuthConfiguration(builder.Configuration);
+builder.Services.ConfigureLoggerService();
 
 builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
     .AddJsonOptions(x =>

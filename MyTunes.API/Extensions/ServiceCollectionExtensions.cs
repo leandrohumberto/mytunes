@@ -8,6 +8,7 @@ using MyTunes.Application.Validators;
 using MyTunes.Core.Repositories;
 using MyTunes.Core.Services;
 using MyTunes.Infrastructure.Auth;
+using MyTunes.Infrastructure.Logging;
 using MyTunes.Infrastructure.Persistence;
 using MyTunes.Infrastructure.Persistence.Repositories;
 using System.Text;
@@ -62,6 +63,11 @@ namespace MyTunes.API.Extensions
                 });
 
             return services;
+        }
+
+        public static void ConfigureLoggerService(this IServiceCollection services)
+        {
+            services.AddSingleton<ILoggerService, LoggerService>();
         }
     }
 }
