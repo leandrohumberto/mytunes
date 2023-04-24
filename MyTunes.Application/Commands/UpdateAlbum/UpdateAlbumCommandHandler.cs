@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using MyTunes.Core.Entities;
 using MyTunes.Core.Repositories;
 
@@ -7,10 +8,12 @@ namespace MyTunes.Application.Commands.UpdateAlbum
     public class UpdateAlbumCommandHandler : IRequestHandler<UpdateAlbumCommand, Unit>
     {
         private readonly IAlbumRepository _albumRepository;
+        private readonly IMapper _mapper;
 
-        public UpdateAlbumCommandHandler(IAlbumRepository albumRepository)
+        public UpdateAlbumCommandHandler(IAlbumRepository albumRepository, IMapper mapper)
         {
             _albumRepository = albumRepository;
+            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(UpdateAlbumCommand request, CancellationToken cancellationToken = default)
@@ -24,7 +27,7 @@ namespace MyTunes.Application.Commands.UpdateAlbum
                     request.Year,
                     request.Genre,
                     request.Format,
-                    request.Tracklist.Select(p => new Track(p.Number, p.Name, p.Length)));
+                    request.Tracklist.Select(trackInputModel => _mapper.Map<Track>(trackInputModel)));
 
                 await _albumRepository.SaveChangesAsync(album, cancellationToken);
             }

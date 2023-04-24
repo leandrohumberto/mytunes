@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using MyTunes.Core.Entities;
 using MyTunes.Core.Exceptions;
 using MyTunes.Core.Repositories;
@@ -10,11 +11,13 @@ namespace MyTunes.Application.Commands.CreateUser
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
+        private readonly IMapper _mapper;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IAuthService authService)
+        public CreateUserCommandHandler(IUserRepository userRepository, IAuthService authService, IMapper mapper)
         {
             _userRepository = userRepository;
             _authService = authService;
+            _mapper = mapper;
         }
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken = default)
@@ -25,7 +28,8 @@ namespace MyTunes.Application.Commands.CreateUser
             }
 
             var computedPassword = _authService.ComputeSha256Hash(request.Password);
-            var user = new User(request.Name, request.Email, computedPassword, request.Role);
+            var user = _mapper.Map<User>(request);
+            user.ChangePassword(computedPassword);
             return await _userRepository.CreateAsync(user, cancellationToken);
         }
     }

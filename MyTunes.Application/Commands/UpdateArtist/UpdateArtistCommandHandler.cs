@@ -17,7 +17,7 @@ namespace MyTunes.Application.Commands.UpdateArtist
             if (await _artistRepository.ExistsAsync(request.Id, cancellationToken))
             {
                 var artist = await _artistRepository.GetByIdAsync(request.Id, cancellationToken);
-                artist.Update(request.Name, request.Biography);
+                artist.Update(request.Name, request.Biography ?? string.Empty);
                 await _artistRepository.SaveChangesAsync(artist, cancellationToken);
             }
 

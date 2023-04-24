@@ -2,6 +2,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using MyTunes.API.Extensions;
 using MyTunes.API.Filters;
+using MyTunes.Application.Mappers;
 using NLog;
 using System.Text.Json.Serialization;
 
@@ -14,6 +15,7 @@ builder.Services.AddCqrs();
 builder.Services.AddFluentValidation();
 builder.Services.AddAuthConfiguration(builder.Configuration);
 builder.Services.ConfigureLoggerService();
+builder.Services.AddAutoMapper(typeof(UserProfile));
 
 builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
     .AddJsonOptions(x =>

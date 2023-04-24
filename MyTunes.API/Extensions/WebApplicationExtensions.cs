@@ -2,7 +2,7 @@
 
 namespace MyTunes.API.Extensions
 {
-    public static class ApplicationBuilderExtentions
+    public static class WebApplicationExtensions
     {
         public static void ConfigureCustomExceptionMiddleware(this WebApplication app)
         {

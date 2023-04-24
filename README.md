@@ -6,3 +6,4 @@
  - https://www.nuget.org/packages/MediatR.Extensions.Microsoft.DependencyInjection/11.1.0
  - https://code-maze.com/net-core-web-development-part3/ (Logging With NLog)
  - https://code-maze.com/global-error-handling-aspnetcore/ (Global Error Handling in ASP.NET Core Web API)
+ - https://code-maze.com/automapper-net-core/ (Getting Started with AutoMapper in ASP.NET Core)

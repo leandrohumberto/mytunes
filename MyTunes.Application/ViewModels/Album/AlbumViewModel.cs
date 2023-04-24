@@ -9,7 +9,7 @@ namespace MyTunes.Application.ViewModels.Album
         {
             Id = id;
             Name = name;
-            Artist = artist;
+            ArtistName = artist;
             Year = year;
             Genre = genre;
             Format = format;
@@ -20,7 +20,7 @@ namespace MyTunes.Application.ViewModels.Album
 
         public string Name { get; private set; }
 
-        public string Artist { get; private set; }
+        public string ArtistName { get; private set; }
 
         public uint Year { get; private set; }
 

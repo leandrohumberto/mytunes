@@ -4,12 +4,6 @@ namespace MyTunes.Core.Entities
 {
     public class User : BaseEntity
     {
-        public User(int id, string name, string email, string password, UserRole role)
-            : this(name, email, password, role)
-        {
-            Id = id;
-        }
-
         public User(string name, string email, string password, UserRole role)
         {
             Name = name;
@@ -28,5 +22,10 @@ namespace MyTunes.Core.Entities
         public UserRole Role { get; private set; }
 
         public bool Active { get; private set; }
+
+        public void ChangePassword(string password)
+        {
+            Password = password;
+        }
     }
 }

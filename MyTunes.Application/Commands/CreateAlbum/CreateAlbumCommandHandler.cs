@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using MyTunes.Core.Entities;
 using MyTunes.Core.Repositories;
 
@@ -8,11 +9,13 @@ namespace MyTunes.Application.Commands
     {
         private readonly IAlbumRepository _albumRepository;
         private readonly IArtistRepository _artistRepository;
+        private readonly IMapper _mapper;
 
-        public CreateAlbumCommandHandler(IAlbumRepository albumRepository, IArtistRepository artistRepository)
+        public CreateAlbumCommandHandler(IAlbumRepository albumRepository, IArtistRepository artistRepository, IMapper mapper)
         {
             _albumRepository = albumRepository;
             _artistRepository = artistRepository;
+            _mapper = mapper;
         }
 
         public async Task<int> Handle(CreateAlbumCommand request, CancellationToken cancellationToken = default)
@@ -28,7 +31,8 @@ namespace MyTunes.Application.Commands
 
             //
             // Create Album object
-            var album = new Album(request.Name, request.IdArtist, request.Year, request.Genre, request.Format, tracklist);
+            //var album = new Album(request.Name, request.IdArtist, request.Year, request.Genre, request.Format, tracklist);
+            var album = _mapper.Map<Album>(request);
 
             //
             // Create on the repository

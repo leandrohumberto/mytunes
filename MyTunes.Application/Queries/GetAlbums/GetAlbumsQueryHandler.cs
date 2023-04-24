@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using MyTunes.Application.ViewModels.Album;
 using MyTunes.Application.ViewModels.Track;
 using MyTunes.Core.Repositories;
@@ -8,10 +9,12 @@ namespace MyTunes.Application.Queries.GetAlbums
     public class GetAlbumsQueryHandler : IRequestHandler<GetAlbumsQuery, IEnumerable<AlbumViewModel>>
     {
         private readonly IAlbumRepository _albumRepository;
+        private readonly IMapper _mapper;
 
-        public GetAlbumsQueryHandler(IAlbumRepository albumRepository)
+        public GetAlbumsQueryHandler(IAlbumRepository albumRepository, IMapper mapper)
         {
             _albumRepository = albumRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<AlbumViewModel>> Handle(GetAlbumsQuery request, CancellationToken cancellationToken = default)
@@ -25,15 +28,7 @@ namespace MyTunes.Application.Queries.GetAlbums
                 format: request?.Format,
                 cancellationToken: cancellationToken);
 
-            return albums.Select(a => new AlbumViewModel(
-                a.Id,
-                a.Name,
-                a.Artist != null ? a.Artist.Name : string.Empty,
-                a.Year,
-                a.Genre,
-                a.Format,
-                a.Tracklist.Select(t => new TrackViewModel(t.Number, t.Name, t.Length)).ToList()))
-                .ToList();
+            return albums.Select(a => _mapper.Map<AlbumViewModel>(a)).ToList();
         }
     }
 }
