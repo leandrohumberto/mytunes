@@ -5,9 +5,9 @@ namespace MyTunes.Application.InputModels.Album
 {
     public class CreateAlbumInputModel
     {
-        public CreateAlbumInputModel(string name, int idArtist, uint year, string genre, AlbumFormat format, IEnumerable<TrackInputModel> tracklist)
+        public CreateAlbumInputModel(string title, int idArtist, uint year, string genre, AlbumFormat format, IEnumerable<TrackInputModel> tracklist)
         {
-            Name = name;
+            TItle = title;
             IdArtist = idArtist;
             Year = year;
             Genre = genre;
@@ -15,7 +15,7 @@ namespace MyTunes.Application.InputModels.Album
             Tracklist = new List<TrackInputModel>(tracklist);
         }
 
-        public string Name { get; private set; }
+        public string TItle { get; private set; }
 
         public int IdArtist { get; private set; }
 

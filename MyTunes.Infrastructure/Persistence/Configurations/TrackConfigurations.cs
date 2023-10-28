@@ -9,7 +9,7 @@ namespace MyTunes.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Track> builder)
         {
             builder.HasKey(track => track.Id);
-            builder.Property(track => track.Name)
+            builder.Property(track => track.Title)
                 .IsRequired();
             builder.Property(track => track.Number)
                 .IsRequired();

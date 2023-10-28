@@ -6,9 +6,9 @@ namespace MyTunes.Application.Commands
 {
     public class CreateAlbumCommand : IRequest<int>
     {
-        public CreateAlbumCommand(string name, int idArtist, uint year, string genre, AlbumFormat format, IEnumerable<TrackInputModel> tracklist)
+        public CreateAlbumCommand(string title, int idArtist, uint year, string genre, AlbumFormat format, IEnumerable<TrackInputModel> tracklist)
         {
-            Name = name;
+            Title = title;
             IdArtist = idArtist;
             Year = year;
             Genre = genre;
@@ -16,7 +16,7 @@ namespace MyTunes.Application.Commands
             Tracklist = new List<TrackInputModel>(tracklist);
         }
 
-        public string Name { get; private set; }
+        public string Title { get; private set; }
 
         public int IdArtist { get; private set; }
 

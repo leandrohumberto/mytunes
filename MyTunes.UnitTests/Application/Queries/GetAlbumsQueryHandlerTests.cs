@@ -27,7 +27,7 @@ namespace MyTunes.UnitTests.Application.Queries
                 It.IsAny<AlbumFormat>(), It.IsAny<IEnumerable<TrackViewModel>>());
 
             query.Artist = artist;
-            query.Name = title;
+            query.Title = title;
             query.Year = year;
             query.Genre = genre;
             query.Format = format;
@@ -60,7 +60,7 @@ namespace MyTunes.UnitTests.Application.Queries
             var handler = new GetAlbumsQueryHandler(albumRepositoryMock.Object, mapperMock.Object);
 
             query.Artist = artist;
-            query.Name = title;
+            query.Title = title;
             query.Year = year;
             query.Genre = genre;
             query.Format = format;

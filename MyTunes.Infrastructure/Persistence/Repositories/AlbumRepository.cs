@@ -31,10 +31,10 @@ namespace MyTunes.Infrastructure.Persistence.Repositories
         public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
             => await _dbContext.Albums.AnyAsync(a => a.Id == id, cancellationToken);
 
-        public async Task<IEnumerable<Album>> GetAllAsync(string? name = default, string? artistName = default, uint? year = default, string? genre = default, AlbumFormat? format = default, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Album>> GetAllAsync(string? title = default, string? artistName = default, uint? year = default, string? genre = default, AlbumFormat? format = default, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Albums.Include(a => a.Artist).Include(a => a.Tracklist)
-                .Where(a => string.IsNullOrWhiteSpace(name) || name == a.Name)
+                .Where(a => string.IsNullOrWhiteSpace(title) || title == a.Title)
                 .Where(a => string.IsNullOrWhiteSpace(artistName) || a.Artist != null && a.Artist.Name == artistName)
                 .Where(a => !year.HasValue || a.Year == year.Value)
                 .Where(a => string.IsNullOrWhiteSpace(genre) || a.Genre == genre)

@@ -12,11 +12,11 @@ namespace MyTunes.Application.Mappers
         {
             CreateMap<CreateAlbumCommand, Album>()
                 .ForMember(album => album.Tracklist,
-                    opt => opt.MapFrom(command => command.Tracklist.Select(t => new Track(t.Number, t.Name, t.Length)).ToList()));
+                    opt => opt.MapFrom(command => command.Tracklist.Select(t => new Track(t.Number, t.Title, t.Length)).ToList()));
 
             CreateMap<Album, AlbumViewModel>()
                 .ForMember(viewModel => viewModel.Tracklist,
-                    opt => opt.MapFrom(album => album.Tracklist.Select(t => new TrackViewModel(t.Number, t.Name, t.Length)).ToList()));
+                    opt => opt.MapFrom(album => album.Tracklist.Select(t => new TrackViewModel(t.Number, t.Title, t.Length)).ToList()));
         }
     }
 }

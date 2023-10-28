@@ -17,7 +17,7 @@ namespace MyTunes.UnitTests.Application.Commands
             var albumRepositoryMock = new Mock<IAlbumRepository>();
             var mapperMock = new Mock<IMapper>();
             var command = new UpdateAlbumCommand(
-                    name: "name",
+                    title: "name",
                     year: 1U,
                     genre: "genre",
                     format: It.IsAny<AlbumFormat>(),
@@ -57,7 +57,7 @@ namespace MyTunes.UnitTests.Application.Commands
             var albumRepositoryMock = new Mock<IAlbumRepository>();
             var mapperMock = new Mock<IMapper>();
             var command = new UpdateAlbumCommand(
-                    name: It.IsAny<string>(),
+                    title: It.IsAny<string>(),
                     year: It.IsAny<uint>(),
                     genre: It.IsAny<string>(),
                     format: It.IsAny<AlbumFormat>(),

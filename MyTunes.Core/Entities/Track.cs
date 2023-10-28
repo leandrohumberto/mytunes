@@ -2,16 +2,16 @@
 {
     public class Track : BaseEntity
     {
-        public Track(uint number, string name, TimeSpan length)
+        public Track(uint number, string title, TimeSpan length)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(title))
             {
-                throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+                throw new ArgumentException($"'{nameof(title)}' cannot be null or empty.", nameof(title));
             }
 
             if (number <= 0)
             {
-                throw new ArgumentException($"'{nameof(number)}' cannot be zero.", nameof(name));
+                throw new ArgumentException($"'{nameof(number)}' cannot be zero.", nameof(title));
             }
 
             if (length.TotalSeconds <= 0.0)
@@ -20,7 +20,7 @@
             }
 
             Number = number;
-            Name = name;
+            Title = title;
             Length = length;
         }
 
@@ -30,7 +30,7 @@
 
         public uint Number { get; private set; }
 
-        public string Name { get; private set; }
+        public string Title { get; private set; }
 
         public TimeSpan Length { get; private set; }
     }

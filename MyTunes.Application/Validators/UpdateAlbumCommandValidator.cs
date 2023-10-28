@@ -7,7 +7,7 @@ namespace MyTunes.Application.Validators
     {
         public UpdateAlbumCommandValidator()
         {
-            RuleFor(a => a.Name)
+            RuleFor(a => a.Title)
                 .NotEmpty()
                 .NotNull();
 

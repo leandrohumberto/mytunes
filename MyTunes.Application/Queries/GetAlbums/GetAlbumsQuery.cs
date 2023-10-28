@@ -6,7 +6,7 @@ namespace MyTunes.Application.Queries.GetAlbums
 {
     public class GetAlbumsQuery : IRequest<IEnumerable<AlbumViewModel>>
     {
-        public string? Name { get; set; }
+        public string? Title { get; set; }
 
         public string? Artist { get; set; }
 

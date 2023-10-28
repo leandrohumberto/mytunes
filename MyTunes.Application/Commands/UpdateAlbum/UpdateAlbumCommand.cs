@@ -6,9 +6,9 @@ namespace MyTunes.Application.Commands.UpdateAlbum
 {
     public class UpdateAlbumCommand : IRequest<Unit>
     {
-        public UpdateAlbumCommand(string name, uint year, string genre, AlbumFormat format, IEnumerable<TrackInputModel> tracklist)
+        public UpdateAlbumCommand(string title, uint year, string genre, AlbumFormat format, IEnumerable<TrackInputModel> tracklist)
         {
-            Name = name;
+            Title = title;
             Year = year;
             Genre = genre;
             Format = format;
@@ -17,7 +17,7 @@ namespace MyTunes.Application.Commands.UpdateAlbum
 
         public int Id { get; private set; }
 
-        public string Name { get; private set; }
+        public string Title { get; private set; }
 
         public uint Year { get; private set; }
 

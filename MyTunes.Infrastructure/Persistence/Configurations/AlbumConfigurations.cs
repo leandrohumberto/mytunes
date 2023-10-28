@@ -9,7 +9,7 @@ namespace MyTunes.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Album> builder)
         {
             builder.HasKey(album => album.Id);
-            builder.Property(album => album.Name)
+            builder.Property(album => album.Title)
                 .IsRequired();
             builder.Property(album => album.Format)
                 .IsRequired();

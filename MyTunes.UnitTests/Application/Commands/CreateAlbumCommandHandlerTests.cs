@@ -20,7 +20,7 @@ namespace MyTunes.UnitTests.Application.Commands
             var mapperMock = new Mock<IMapper>();
 
             var command = new CreateAlbumCommand(
-                    name: It.IsAny<string>(),
+                    title: It.IsAny<string>(),
                     idArtist: It.IsAny<int>(),
                     year: It.IsAny<uint>(),
                     genre: It.IsAny<string>(),
@@ -56,7 +56,7 @@ namespace MyTunes.UnitTests.Application.Commands
             var mapperMock = new Mock<IMapper>();
 
             var command = new CreateAlbumCommand(
-                    name: It.IsAny<string>(),
+                    title: It.IsAny<string>(),
                     idArtist: It.IsAny<int>(),
                     year: It.IsAny<uint>(),
                     genre: It.IsAny<string>(),

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyTunes.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MyTunes.Infrastructure.Persistence;
 namespace MyTunes.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MyTunesDbContext))]
-    partial class MyTunesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231028220015_ChangeAlbumTrackNameToTitle")]
+    partial class ChangeAlbumTrackNameToTitle
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -4,7 +4,7 @@ namespace MyTunes.Application.InputModels.Album
 {
     public class GetAlbumsInputModel
     {
-        public string? Name { get; set; }
+        public string? Title { get; set; }
 
         public string? Artist { get; set; }
 

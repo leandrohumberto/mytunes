@@ -61,12 +61,12 @@ namespace MyTunes.Application.Services.Implementations
                         .Include(a => a.Tracklist)
                         .Select(p => new AlbumViewModel(
                             p.Id,
-                            p.Name,
+                            p.Title,
                             p.Artist != null ? p.Artist.Name : string.Empty,
                             p.Year,
                             p.Genre,
                             p.Format,
-                            p.Tracklist.Select(t => new TrackViewModel(t.Number, t.Name, t.Length))))
+                            p.Tracklist.Select(t => new TrackViewModel(t.Number, t.Title, t.Length))))
                         .ToList());
             }
 
@@ -112,12 +112,12 @@ namespace MyTunes.Application.Services.Implementations
             return await Task.FromResult(
                 albums.Select(p => new AlbumViewModel(
                     p.Id,
-                    p.Name,
+                    p.Title,
                     p.Artist != null ? p.Artist.Name : string.Empty,
                     p.Year,
                     p.Genre,
                     p.Format,
-                    p.Tracklist.Select(t => new TrackViewModel(t.Number, t.Name, t.Length))))
+                    p.Tracklist.Select(t => new TrackViewModel(t.Number, t.Title, t.Length))))
                     .ToList());
         }
 
@@ -132,12 +132,12 @@ namespace MyTunes.Application.Services.Implementations
 
                 return await Task.FromResult(new AlbumViewModel(
                     album.Id,
-                    album.Name,
+                    album.Title,
                     album.Artist != null ? album.Artist.Name : string.Empty,
                     album.Year,
                     album.Genre,
                     album.Format,
-                    album.Tracklist.Select(p => new TrackViewModel(p.Number, p.Name, p.Length))
+                    album.Tracklist.Select(p => new TrackViewModel(p.Number, p.Title, p.Length))
                     .ToList()));
             }
 
@@ -151,11 +151,11 @@ namespace MyTunes.Application.Services.Implementations
                 var album = _dbContext.Albums.Single(p => p.Id == id);
                 _dbContext.Tracks.RemoveRange(album.Tracklist);
                 album.Update(
-                    inputModel.Name,
+                    inputModel.Title,
                     inputModel.Year,
                     inputModel.Genre,
                     inputModel.Format,
-                    inputModel.Tracklist.Select(p => new Track(p.Number, p.Name, p.Length)));
+                    inputModel.Tracklist.Select(p => new Track(p.Number, p.Title, p.Length)));
 
                 _ = await _dbContext.SaveChangesAsync(cancellationToken);
             }

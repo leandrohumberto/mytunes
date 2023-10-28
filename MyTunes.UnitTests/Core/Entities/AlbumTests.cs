@@ -15,15 +15,15 @@ namespace MyTunes.UnitTests.Core.Entities
 
         [Theory]
         [MemberData(nameof(ValidInputData))]
-        public void InputDataIsValid_Executed_CreateNewAlbum(string name, uint year, string genre, AlbumFormat albumFormat, IEnumerable<Track> tracklist)
+        public void InputDataIsValid_Executed_CreateNewAlbum(string title, uint year, string genre, AlbumFormat albumFormat, IEnumerable<Track> tracklist)
         {
             // Arrange
 
             // Act
-            var album = new Album(name, It.IsAny<int>(), year, genre, albumFormat, tracklist);
+            var album = new Album(title, It.IsAny<int>(), year, genre, albumFormat, tracklist);
 
             // Assert
-            Assert.Equal(name, album.Name);
+            Assert.Equal(title, album.Title);
             Assert.Equal(year, album.Year);
             Assert.Equal(genre, album.Genre);
             Assert.Equal(albumFormat, album.Format);
@@ -32,28 +32,28 @@ namespace MyTunes.UnitTests.Core.Entities
 
         [Theory]
         [MemberData(nameof(InvalidInputData))]
-        public void InputDataIsNotValid_Executed_ThrowExceptionForNewAlbum(string name, uint year, string genre, AlbumFormat albumFormat, IEnumerable<Track> tracklist)
+        public void InputDataIsNotValid_Executed_ThrowExceptionForNewAlbum(string title, uint year, string genre, AlbumFormat albumFormat, IEnumerable<Track> tracklist)
         {
             // Arrange
 
             // Act
 
             // Assert
-            Assert.ThrowsAny<ArgumentException>(() => new Album(name, It.IsAny<int>(), year, genre, albumFormat, tracklist));
+            Assert.ThrowsAny<ArgumentException>(() => new Album(title, It.IsAny<int>(), year, genre, albumFormat, tracklist));
         }
 
         [Theory]
         [MemberData(nameof(ValidInputData))]
-        public void InputDataIsValid_Executed_UpdateAlbum(string name, uint year, string genre, AlbumFormat albumFormat, IEnumerable<Track> tracklist)
+        public void InputDataIsValid_Executed_UpdateAlbum(string title, uint year, string genre, AlbumFormat albumFormat, IEnumerable<Track> tracklist)
         {
             // Arrange
             var album = new Album("name", 1, 1U, "genre", AlbumFormat.Ep);
 
             // Act
-            album.Update(name, year, genre, albumFormat, tracklist);
+            album.Update(title, year, genre, albumFormat, tracklist);
 
             // Assert
-            Assert.Equal(name, album.Name);
+            Assert.Equal(title, album.Title);
             Assert.Equal(year, album.Year);
             Assert.Equal(genre, album.Genre);
             Assert.Equal(albumFormat, album.Format);
@@ -62,7 +62,7 @@ namespace MyTunes.UnitTests.Core.Entities
 
         [Theory]
         [MemberData(nameof(InvalidInputData))]
-        public void InputDataIsNotValid_Executed_ThrowExceptionForAlbumUpdate(string name, uint year, string genre, AlbumFormat albumFormat, IEnumerable<Track> tracklist)
+        public void InputDataIsNotValid_Executed_ThrowExceptionForAlbumUpdate(string title, uint year, string genre, AlbumFormat albumFormat, IEnumerable<Track> tracklist)
         {
             // Arrange
             var album = new Album("name", 1, 1U, "genre", AlbumFormat.Ep);
@@ -70,7 +70,7 @@ namespace MyTunes.UnitTests.Core.Entities
             // Act
 
             // Assert
-            Assert.ThrowsAny<ArgumentException>(() => album.Update(name, year, genre, albumFormat, tracklist));
+            Assert.ThrowsAny<ArgumentException>(() => album.Update(title, year, genre, albumFormat, tracklist));
         }
     }
 }

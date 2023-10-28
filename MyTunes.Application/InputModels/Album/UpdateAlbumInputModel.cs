@@ -5,16 +5,16 @@ namespace MyTunes.Application.InputModels.Album
 {
     public class UpdateAlbumInputModel
     {
-        public UpdateAlbumInputModel(string name, uint year, string genre, AlbumFormat format, IEnumerable<TrackInputModel> tracklist)
+        public UpdateAlbumInputModel(string title, uint year, string genre, AlbumFormat format, IEnumerable<TrackInputModel> tracklist)
         {
-            Name = name;
+            Title = title;
             Year = year;
             Genre = genre;
             Format = format;
             Tracklist = new List<TrackInputModel>(tracklist);
         }
 
-        public string Name { get; private set; }
+        public string Title { get; private set; }
 
         public uint Year { get; private set; }
 

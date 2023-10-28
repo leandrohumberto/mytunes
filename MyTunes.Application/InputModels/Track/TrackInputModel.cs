@@ -2,16 +2,16 @@
 {
     public class TrackInputModel
     {
-        public TrackInputModel(uint number, string name, TimeSpan length)
+        public TrackInputModel(uint number, string title, TimeSpan length)
         {
             Number = number;
-            Name = name;
+            Title = title;
             Length = length;
         }
 
         public uint Number { get; private set; }
 
-        public string Name { get; private set; }
+        public string Title { get; private set; }
 
         public TimeSpan Length { get; private set; }
     }

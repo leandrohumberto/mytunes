@@ -23,7 +23,7 @@ namespace MyTunes.Application.Commands.UpdateAlbum
                 var album = await _albumRepository.GetByIdAsync(request.Id, cancellationToken);
 
                 album.Update(
-                    request.Name,
+                    request.Title,
                     request.Year,
                     request.Genre,
                     request.Format,

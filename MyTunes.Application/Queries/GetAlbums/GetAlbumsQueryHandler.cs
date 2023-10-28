@@ -21,7 +21,7 @@ namespace MyTunes.Application.Queries.GetAlbums
         {
 
             var albums = await _albumRepository.GetAllAsync(
-                name: request?.Name,
+                title: request?.Title,
                 artistName: request?.Artist,
                 year: request?.Year,
                 genre: request?.Genre,

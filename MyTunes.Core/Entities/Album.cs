@@ -4,10 +4,10 @@ namespace MyTunes.Core.Entities
 {
     public class Album : BaseEntity
     {
-        public Album(string name, int idArtist, uint year, string genre, AlbumFormat format)
+        public Album(string title, int idArtist, uint year, string genre, AlbumFormat format)
         {
-            Validate(name, year, genre);
-            Name = name;
+            Validate(title, year, genre);
+            Title = title;
             IdArtist = idArtist;
             Year = year;
             Genre = genre;
@@ -16,14 +16,14 @@ namespace MyTunes.Core.Entities
 
         }
 
-        public Album(string name, int idArtist, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
-            : this(name, idArtist, year, genre, format)
+        public Album(string title, int idArtist, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
+            : this(title, idArtist, year, genre, format)
         {
             Validate(tracklist);
             Tracklist = new List<Track>(tracklist);
         }
 
-        public string Name { get; private set; }
+        public string Title { get; private set; }
 
         public int IdArtist { get; private set; }
 
@@ -37,28 +37,28 @@ namespace MyTunes.Core.Entities
 
         public List<Track> Tracklist { get; private set; }
 
-        public void Update(string name, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
+        public void Update(string title, uint year, string genre, AlbumFormat format, IEnumerable<Track> tracklist)
         {
-            Validate(name, year, genre);
+            Validate(title, year, genre);
             Validate(tracklist);
 
-            Name = name;
+            Title = title;
             Year = year;
             Genre = genre;
             Format = format;
             Tracklist = new List<Track>(tracklist);
         }
 
-        private static void Validate(string name, uint year, string genre)
+        private static void Validate(string title, uint year, string genre)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(title))
             {
-                throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+                throw new ArgumentException($"'{nameof(title)}' cannot be null or empty.", nameof(title));
             }
 
             if (year == 0)
             {
-                throw new ArgumentException($"'{nameof(year)}' cannot be zero.", nameof(name));
+                throw new ArgumentException($"'{nameof(year)}' cannot be zero.", nameof(title));
             }
 
             if (string.IsNullOrEmpty(genre))

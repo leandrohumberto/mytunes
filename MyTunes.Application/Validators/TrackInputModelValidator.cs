@@ -7,7 +7,7 @@ namespace MyTunes.Application.Validators
     {
         public TrackInputModelValidator()
         {
-            RuleFor(t => t.Name)
+            RuleFor(t => t.Title)
                     .NotEmpty();
 
             RuleFor(t => t.Number)
