@@ -4,6 +4,11 @@
     {
         public Artist(string name, string biography)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+            }
+
             Name = name;
             Biography = biography;
             Albums = new List<Album>();
@@ -17,6 +22,11 @@
 
         public void Update(string name, string biography)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+            }
+
             Name = name;
             Biography = biography;
         }

@@ -7,3 +7,4 @@
  - https://code-maze.com/net-core-web-development-part3/ (Logging With NLog)
  - https://code-maze.com/global-error-handling-aspnetcore/ (Global Error Handling in ASP.NET Core Web API)
  - https://code-maze.com/automapper-net-core/ (Getting Started with AutoMapper in ASP.NET Core)
+ - https://hamidmosalla.com/2017/02/25/xunit-theory-working-with-inlinedata-memberdata-classdata/ (xUnit Theory: Working With InlineData, MemberData, ClassData)

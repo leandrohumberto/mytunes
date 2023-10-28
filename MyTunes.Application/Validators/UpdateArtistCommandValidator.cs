@@ -9,8 +9,7 @@ namespace MyTunes.Application.Validators
         {
             RuleFor(a => a.Name)
                 .NotEmpty()
-                .NotNull()
-                .WithMessage("Artist name is required");
+                .NotNull();
         }
     }
 }

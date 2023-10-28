@@ -22,7 +22,7 @@ namespace MyTunes.Application.Validators
                 .NotEmpty();
 
             RuleFor(a => a.Tracklist)
-                .ForEach(a => a.SetValidator(new TrackInputModelValidator()));
+                .ForEach(t => t.SetValidator(new TrackInputModelValidator()));
 
             RuleFor(a => a.Tracklist)
                 .Must(tracklist =>

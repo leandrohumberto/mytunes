@@ -32,6 +32,11 @@ namespace MyTunes.API.CustomExceptionMiddleware
                 _loggerService.LogError($"Invalid user email - {ex.Email}: {ex}");
                 await HandleExceptionAsync(httpContext, HttpStatusCode.BadRequest, ex.Message);
             }
+            catch (ArtistNotFoundException ex)
+            {
+                _loggerService.LogError($"Artist Id not found - {ex.Id}: {ex}");
+                await HandleExceptionAsync(httpContext, HttpStatusCode.BadRequest, ex.Message);
+            }
             catch (Exception ex)
             {
                 _loggerService.LogError($"Something went wrong:{ex}");

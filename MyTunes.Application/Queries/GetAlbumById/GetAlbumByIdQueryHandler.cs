@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using MyTunes.Application.ViewModels.Album;
-using MyTunes.Application.ViewModels.Track;
 using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Queries.GetAlbumById

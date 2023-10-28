@@ -13,7 +13,7 @@ namespace MyTunes.Application.ViewModels.Album
             Year = year;
             Genre = genre;
             Format = format;
-            Tracklist = new List<TrackViewModel>(tracklist);
+            Tracklist = tracklist != null ? new List<TrackViewModel>(tracklist) : new List<TrackViewModel>();
         }
 
         public int Id { get; private set; }

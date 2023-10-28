@@ -6,6 +6,21 @@ namespace MyTunes.Core.Entities
     {
         public User(string name, string email, string password, UserRole role)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
+            }
+
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentException($"'{nameof(email)}' cannot be null or empty.", nameof(email));
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException($"'{nameof(password)}' cannot be null or empty.", nameof(password));
+            }
+
             Name = name;
             Email = email;
             Password = password;
@@ -25,6 +40,11 @@ namespace MyTunes.Core.Entities
 
         public void ChangePassword(string password)
         {
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException($"'{nameof(password)}' cannot be null or empty.", nameof(password));
+            }
+
             Password = password;
         }
     }

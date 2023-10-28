@@ -10,13 +10,16 @@ namespace MyTunes.Application.Validators
         {
             RuleFor(u => u.Name)
                 .NotEmpty()
-                .NotNull()
-                .WithMessage("User name is rquired");
+                .NotNull();
 
             RuleFor(u => u.Email).EmailAddress(FluentValidation.Validators.EmailValidationMode.AspNetCoreCompatible);
 
             RuleFor(u => u.Role)
                 .IsInEnum();
+
+            RuleFor(u => u.Password)
+                .NotEmpty()
+                .NotNull();
 
             RuleFor(u => u.Password)
                 .Must(ValidatePassword)
@@ -26,6 +29,11 @@ namespace MyTunes.Application.Validators
 
         private bool ValidatePassword(string password)
         {
+            if (string.IsNullOrEmpty(password))
+            {
+                return false;
+            }
+
             var regex = new Regex(@"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=]).*$");
             return regex.IsMatch(password);
         }

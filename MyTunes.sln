@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTunes.API", "MyTunes.API\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTunes.Core", "MyTunes.Core\MyTunes.Core.csproj", "{863904BD-FE5C-4604-84DB-7C81F211C48F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunes.Infrastructure", "MyTunes.Infrastructure\MyTunes.Infrastructure.csproj", "{F7658C1C-B2F7-4062-91EE-AFC06A086D6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTunes.Infrastructure", "MyTunes.Infrastructure\MyTunes.Infrastructure.csproj", "{F7658C1C-B2F7-4062-91EE-AFC06A086D6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunes.Application", "MyTunes.Application\MyTunes.Application.csproj", "{FBB66D01-8801-4193-9834-5059BFC2ED3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTunes.Application", "MyTunes.Application\MyTunes.Application.csproj", "{FBB66D01-8801-4193-9834-5059BFC2ED3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTunes.UnitTests", "MyTunes.UnitTests\MyTunes.UnitTests.csproj", "{3A61FAF5-CAD8-46F6-B783-543FF099BEA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{FBB66D01-8801-4193-9834-5059BFC2ED3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBB66D01-8801-4193-9834-5059BFC2ED3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBB66D01-8801-4193-9834-5059BFC2ED3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A61FAF5-CAD8-46F6-B783-543FF099BEA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A61FAF5-CAD8-46F6-B783-543FF099BEA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A61FAF5-CAD8-46F6-B783-543FF099BEA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A61FAF5-CAD8-46F6-B783-543FF099BEA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

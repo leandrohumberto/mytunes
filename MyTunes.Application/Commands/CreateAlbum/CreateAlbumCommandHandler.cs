@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using MyTunes.Core.Entities;
+using MyTunes.Core.Exceptions;
 using MyTunes.Core.Repositories;
 
 namespace MyTunes.Application.Commands
@@ -22,12 +23,13 @@ namespace MyTunes.Application.Commands
         {
             if (!await _artistRepository.ExistsAsync(request.IdArtist, cancellationToken))
             {
-                throw new Exception($"No artists found for the given Id ({request.IdArtist}).");
+                throw new ArtistNotFoundException(request.IdArtist,
+                    $"No artists found for the given Id ({request.IdArtist}).");
             }
 
             //
             // Create tracklist
-            var tracklist = request.Tracklist.Select(p => new Track(p.Number, p.Name, p.Length));
+            //var tracklist = request.Tracklist.Select(p => new Track(p.Number, p.Name, p.Length));
 
             //
             // Create Album object

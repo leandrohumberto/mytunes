@@ -12,7 +12,7 @@ namespace MyTunes.Application.Commands.UpdateAlbum
             Year = year;
             Genre = genre;
             Format = format;
-            Tracklist = new List<TrackInputModel>(tracklist);
+            Tracklist = tracklist != null ? new List<TrackInputModel>(tracklist) : new List<TrackInputModel>();
         }
 
         public int Id { get; private set; }
