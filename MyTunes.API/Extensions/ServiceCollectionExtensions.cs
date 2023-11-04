@@ -19,8 +19,20 @@ namespace MyTunes.API.Extensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = configuration.GetConnectionString("MyTunesCs");
+
             services.AddDbContext<MyTunesDbContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("MyTunesCs")));
+                options =>
+                {
+                    if (!string.IsNullOrWhiteSpace(connectionString))
+                    {
+                        options.UseSqlServer(configuration.GetConnectionString("MyTunesCs"));
+                    }
+                    else
+                    {
+                        options.UseInMemoryDatabase("MyTunes");
+                    }
+                });
 
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
